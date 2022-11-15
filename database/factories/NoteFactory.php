@@ -17,7 +17,7 @@ class NoteFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->title(),
+            'title' => $this->faker->sentence(),
             'text' => $this->faker->paragraph(),
             'idYTVideo' => 'JuMEmF-2FsA',
             'user_id' => 1
