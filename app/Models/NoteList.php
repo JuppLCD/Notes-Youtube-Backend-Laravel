@@ -10,19 +10,24 @@ class NoteList extends Model
     use HasFactory;
 
     protected  $fillable = [
-        "name",
+        "title",
         "description",
+        "user_id"
+    ];
+
+    protected $hidden = [
+        'user_id',
     ];
 
     protected $table = 'lists';
 
     public function notes()
     {
-        return $this->belongsToMany('App\Models\Notes');
+        return $this->belongsToMany(Note::class, 'list_note', 'list_id', 'note_id');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 }

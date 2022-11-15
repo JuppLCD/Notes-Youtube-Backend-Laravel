@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('lists', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
+            $table->string('title');
             $table->text('description');
 
             $table->unsignedBigInteger('user_id');

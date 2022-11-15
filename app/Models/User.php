@@ -45,11 +45,11 @@ class User extends Authenticatable
 
     public function notes()
     {
-        return $this->hasMany('App\Models\Note');
+        return $this->hasMany(Note::class);
     }
 
-    public function listsOfNotes()
+    public function lists()
     {
-        return $this->hasMany('App\Models\NoteList');
+        return $this->hasMany(NoteList::class);
     }
 }

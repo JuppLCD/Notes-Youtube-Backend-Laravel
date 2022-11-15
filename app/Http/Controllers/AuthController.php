@@ -24,7 +24,7 @@ class AuthController extends Controller
         }
 
         $res = [
-            'accessToken' => $user->createToken('example')->plainTextToken,
+            'accessToken' => $user->createToken('auth_token')->plainTextToken,
             'user' => [
                 'userId' => $user->id,
                 'userName' => $user->name
@@ -51,7 +51,7 @@ class AuthController extends Controller
         }
 
         $res = [
-            'accessToken' => $user->createToken('example')->plainTextToken,
+            'accessToken' => $user->createToken('auth_token')->plainTextToken,
             'user' => [
                 'userId' => $user->id,
                 'userName' => $user->name
@@ -66,7 +66,7 @@ class AuthController extends Controller
         $user = $request->user();
 
         $res = [
-            'accessToken' => $user->createToken('example')->plainTextToken,
+            'accessToken' => $user->createToken('auth_token')->plainTextToken,
             'user' => [
                 'userId' => $user->id,
                 'userName' => $user->name

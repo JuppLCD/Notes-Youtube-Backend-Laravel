@@ -12,14 +12,19 @@ class Note extends Model
     protected  $fillable = [
         "title",
         "text",
-        "idYTVideo"
+        "idYTVideo",
+        "user_id"
+    ];
+
+    protected $hidden = [
+        'user_id',
     ];
 
     protected $table = 'notes';
 
-    public function listsOfNotes()
+    public function lists()
     {
-        return $this->belongsToMany('App\Models\NoteList');
+        return $this->belongsToMany('App\Models\NoteList', 'list_note',  'note_id', 'list_id');
     }
 
     public function user()
