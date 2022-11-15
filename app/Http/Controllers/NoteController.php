@@ -32,11 +32,9 @@ class NoteController extends Controller
         // TODO: Validar que el usuario este autorizado (creador/moderador/administrador)
         $user = $request->user();
 
-        if ($note->user_id == $user->id) {
-            return response()->json($note);
-        } else {
-            abort(404, 'Recurso no encontrado');
-        }
+        $this->authorize('isAuthorized', [$note, $user]);
+
+        return response()->json($note);
     }
 
 
@@ -45,12 +43,10 @@ class NoteController extends Controller
         // TODO: Validar que el usuario este autorizado (creador/moderador/administrador)
         $user = $request->user();
 
-        if (!$note->user_id == $user->id) {
-            abort(404, 'Recurso no encontrado');
-        } else {
-            $note->update($request->all());
-            return response()->json($note);
-        }
+        $this->authorize('isAuthorized', [$note, $user]);
+
+        $note->update($request->all());
+        return response()->json($note);
     }
 
 
@@ -59,11 +55,9 @@ class NoteController extends Controller
         // TODO: Validar que el usuario este autorizado (creador/moderador/administrador)
         $user = $request->user();
 
-        if ($note->user_id == $user->id) {
-            $note->delete();
-            return response()->json($note);
-        } else {
-            abort(404, 'Recurso no encontrado');
-        }
+        $this->authorize('isAuthorized', [$note, $user]);
+
+        $note->delete();
+        return response()->json($note);
     }
 }

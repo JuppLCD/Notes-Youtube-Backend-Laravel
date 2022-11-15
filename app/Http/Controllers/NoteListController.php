@@ -32,12 +32,9 @@ class NoteListController extends Controller
         $user = $request->user();
         $noteList = NoteList::find($id);
 
+        $this->authorize('isAuthorized', [$noteList, $user]);
 
-        if ($noteList->user_id == $user->id) {
-            return response()->json($noteList);
-        } else {
-            abort(404, 'Recurso no encontrado');
-        }
+        return response()->json($noteList);
     }
 
     public function update(NoteListFormRequest $request,  $id)
@@ -46,12 +43,10 @@ class NoteListController extends Controller
         $user = $request->user();
         $noteList = NoteList::find($id);
 
-        if (!$noteList->user_id === $user->id) {
-            abort(404, 'Recurso no encontrado');
-        } else {
-            $noteList->update($request->all());
-            return response()->json($noteList);
-        }
+        $this->authorize('isAuthorized', [$noteList, $user]);
+
+        $noteList->update($request->all());
+        return response()->json($noteList);
     }
 
     public function destroy(Request $request, $id)
@@ -60,11 +55,9 @@ class NoteListController extends Controller
         $user = $request->user();
         $noteList = NoteList::find($id);
 
-        if ($noteList->user_id == $user->id) {
-            $noteList->delete();
-            return response()->json($noteList);
-        } else {
-            abort(404, 'Recurso no encontrado');
-        }
+        $this->authorize('isAuthorized', [$noteList, $user]);
+
+        $noteList->delete();
+        return response()->json($noteList);
     }
 }
