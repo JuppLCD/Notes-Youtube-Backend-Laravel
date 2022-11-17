@@ -41,13 +41,13 @@ class NoteController extends Controller
 
         foreach ($note->lists as $list) {
             if ($list->id == $noteList->id) {
-                return response('success');
+                return response('', 200);
             }
         }
 
         $note->lists()->attach($noteList->id);
 
-        return response('success');
+        return response('', 200);
     }
 
     public function deleteNoteInNoteList(Request $request, Note $note, NoteList $noteList)
@@ -63,7 +63,7 @@ class NoteController extends Controller
 
         $note->lists()->detach($noteList->id);
 
-        return response('success');
+        return response('', 200);
     }
 
     public function store(NoteFormRequest $request)
