@@ -24,4 +24,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('lists', NoteListController::class);
 
     Route::get('notes/idYTVideo/{idYTVideo}', [NoteController::class, 'getNotesByIdYTVideo']);
+    Route::post('notes/{note}/lists/{noteList}', [NoteController::class, 'addNoteInNoteList']);
 });

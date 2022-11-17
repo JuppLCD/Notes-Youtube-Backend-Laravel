@@ -28,6 +28,28 @@ class NoteController extends Controller
         return response()->json($notes);
     }
 
+    public function addNoteInNoteList(Request $request, Note $note, NoteList $noteList)
+    {
+        if (!$note && !$noteList) {
+            abort(400);
+        }
+        $user = $request->user();
+
+        if ($user->id !== $note->user_id || $user->id !== $noteList->user_id) {
+            abort(404, 'Recurso no encontrado');
+        }
+
+        foreach ($note->lists as $list) {
+            if ($list->id == $noteList->id) {
+                return response('success');
+            }
+        }
+
+        $note->lists()->attach($noteList->id);
+
+        return response('success');
+    }
+
 
 
     public function store(NoteFormRequest $request)
