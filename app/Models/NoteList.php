@@ -17,6 +17,7 @@ class NoteList extends Model
 
     protected $hidden = [
         'user_id',
+        'pivot'
     ];
 
     protected $table = 'lists';

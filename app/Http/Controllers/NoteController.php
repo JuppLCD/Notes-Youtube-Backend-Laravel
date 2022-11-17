@@ -6,16 +6,29 @@ use App\Models\Note;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\NoteFormRequest;
+use App\Models\NoteList;
 
 class NoteController extends Controller
 {
     public function index(Request $request)
     {
         $user = $request->user();
-        $notes = $user->notes;
-        // $notes = Note::where('user_id', $user->id)->get();
+        // $notes = $user->notes;
+        $notes = Note::where('user_id', $user->id)->with('lists:id,title')->get();
         return response()->json($notes);
     }
+
+    public function getNotesByIdYTVideo(Request $request, $idYTVideo)
+    {
+        if (!is_string($idYTVideo) && !empty($idYTVideo)) {
+            abort(404, 'No existe el idYTVideo en DB');
+        }
+        $user = $request->user();
+        $notes = Note::where('user_id', $user->id)->where('idYTVideo', $idYTVideo)->with('lists:id,title')->get();
+        return response()->json($notes);
+    }
+
+
 
     public function store(NoteFormRequest $request)
     {
@@ -29,7 +42,6 @@ class NoteController extends Controller
 
     public function show(Request $request, Note $note)
     {
-        // TODO: Validar que el usuario este autorizado (creador/moderador/administrador)
         $user = $request->user();
 
         $this->authorize('isAuthorized', [$note, $user]);
@@ -40,7 +52,6 @@ class NoteController extends Controller
 
     public function update(NoteFormRequest $request, Note $note)
     {
-        // TODO: Validar que el usuario este autorizado (creador/moderador/administrador)
         $user = $request->user();
 
         $this->authorize('isAuthorized', [$note, $user]);
@@ -52,7 +63,6 @@ class NoteController extends Controller
 
     public function destroy(Request $request, Note $note)
     {
-        // TODO: Validar que el usuario este autorizado (creador/moderador/administrador)
         $user = $request->user();
 
         $this->authorize('isAuthorized', [$note, $user]);

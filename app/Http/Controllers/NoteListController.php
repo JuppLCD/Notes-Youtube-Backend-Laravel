@@ -13,7 +13,7 @@ class NoteListController extends Controller
     {
         $user = $request->user();
         $listsOfNotes = $user->lists;
-        // $listsOfNotes = NoteList::where('user_id', $user->id)->get();
+        // $listsOfNotes = NoteList::where('user_id', $user->id)->with('notes')->get();
         return response()->json($listsOfNotes);
     }
 
@@ -28,7 +28,6 @@ class NoteListController extends Controller
 
     public function show(Request $request, $id)
     {
-        // TODO: Validar que el usuario este autorizado (creador/moderador/administrador)
         $user = $request->user();
         $noteList = NoteList::find($id);
 
@@ -39,7 +38,6 @@ class NoteListController extends Controller
 
     public function update(NoteListFormRequest $request,  $id)
     {
-        // TODO: Validar que el usuario este autorizado (creador/moderador/administrador)
         $user = $request->user();
         $noteList = NoteList::find($id);
 
@@ -51,7 +49,6 @@ class NoteListController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        // TODO: Validar que el usuario este autorizado (creador/moderador/administrador)
         $user = $request->user();
         $noteList = NoteList::find($id);
 
