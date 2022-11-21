@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NoteList;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -22,6 +23,14 @@ class AuthController extends Controller
         if (!$user) {
             abort(500, 'Error to create user');
         }
+
+        $defaultNoteList = [
+            "user_id" => $user->id,
+            "title" => "All Notes (default)",
+            "description" => "Note list created by default"
+        ];
+
+        NoteList::create($defaultNoteList);
 
         $res = [
             'accessToken' => $user->createToken('auth_token')->plainTextToken,
