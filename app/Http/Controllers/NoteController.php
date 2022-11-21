@@ -13,7 +13,6 @@ class NoteController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        // $notes = $user->notes;
         $notes = Note::where('user_id', $user->id)->with('lists:id,title')->get();
         return response()->json($notes);
     }
@@ -70,10 +69,19 @@ class NoteController extends Controller
     {
         $user = $request->user();
 
-        $newNote = array_merge($request->all(), ['user_id' => $user->id]);
+        $listId = $request->get('list_id');
+
+        if (is_null($listId)) {
+            $noteByDefault = NoteList::where("user_id", $user->id)->where("title", "All Notes (default)")->get();
+            $listId = $noteByDefault[0]->id;
+        }
+
+        $newNote = array_merge($request->only('title', 'text', 'idYTVideo'), ['user_id' => $user->id]);
         $note = Note::create($newNote);
 
-        return response()->json($note);
+        $note->lists()->attach($listId);
+
+        return response()->json($note->with('lists:id,title')->where('id', $note->id)->get()[0]);
     }
 
     public function show(Request $request, Note $note)
@@ -82,7 +90,7 @@ class NoteController extends Controller
 
         $this->authorize('isAuthorized', [$note, $user]);
 
-        return response()->json($note);
+        return response()->json($note->with('lists:id,title')->where('id', $note->id)->get()[0]);
     }
 
 

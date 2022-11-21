@@ -31,6 +31,13 @@ class NoteFormRequest extends FormRequest
                 'text' => ['sometimes', 'required', 'string'],
                 'idYTVideo' => ['sometimes', 'required', 'string'],
             ];
+        } else if ($method == 'POST') {
+            return [
+                'title' => 'required|string',
+                'text' => 'required|string',
+                'idYTVideo' => 'required|string',
+                'list_id' => 'sometimes|integer'
+            ];
         } else {
             return [
                 'title' => 'required|string',
