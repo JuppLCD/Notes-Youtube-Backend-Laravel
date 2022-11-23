@@ -12,6 +12,13 @@ class NoteListController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+        $listsOfNotes = $user->lists;
+        return response()->json($listsOfNotes);
+    }
+
+    public function allFull(Request $request)
+    {
+        $user = $request->user();
         $listsOfNotes = NoteList::where('user_id', $user->id)->with('notes')->get();
         return response()->json($listsOfNotes);
     }

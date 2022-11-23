@@ -13,17 +13,20 @@ Route::post('/register', [AuthController::class, 'register']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
+    Route::get('user', function (Request $request) {
         return $request->user();
     });
 
-    Route::get('/valid_token', [AuthController::class, 'validToken']);
+    Route::get('valid_token', [AuthController::class, 'validToken']);
 
 
     Route::apiResource('notes', NoteController::class);
     Route::apiResource('lists', NoteListController::class);
 
+
     Route::get('notes/idYTVideo/{idYTVideo}', [NoteController::class, 'getNotesByIdYTVideo']);
     Route::post('notes/{note}/lists/{noteList}', [NoteController::class, 'addNoteInNoteList']);
     Route::delete('notes/{note}/lists/{noteList}', [NoteController::class, 'deleteNoteInNoteList']);
+
+    Route::get('lists_full', [NoteListController::class, 'allFull']);
 });
