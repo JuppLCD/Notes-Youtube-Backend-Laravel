@@ -18,6 +18,7 @@ class NoteListSeeder extends Seeder
     {
         NoteList::factory()->create([
             'title' => 'All Notes (default)',
+            'description' => "Note list created by default"
         ]);
 
         NoteList::factory()->create([
